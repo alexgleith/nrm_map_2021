@@ -36,16 +36,11 @@ $.getJSON("nrm_reg_new.json", function (json) {
           feature.properties.name +
           "</b><br><a href=" +
           feature.properties.url +
-          ">More Information</a>",
+          " target='_blank'>More Information</a>",
         popupOptions
       );
 
       layer.bindTooltip(feature.properties.name);
-
-      // //check for touch device
-      // if (!is_touch_device()) {
-      //   layer.bindLabel(feature.properties.NRM_REGION);
-      // }
 
       layer.on({
         click: zoomToFeature,
@@ -55,11 +50,26 @@ $.getJSON("nrm_reg_new.json", function (json) {
 });
 
 var colours = [
+  "#FF6666",
+  "#FDB462",
+  "#F27EA5",
+  "#2D88B5",
+  "#6666CC",
+  "#CCCC66",
+  "#FB8072",
+  "#6666CC",
+  "#CCCC66",
+  "#FB8072",
+  "#e6e6ff",
+  "#ffffb3",
+  "#b3ffec",
+  "#FFAA80",
   "#FB8072",
   "#80B1D3",
   "#33CC99",
+  "#ffe6ff",
   "#FF6666",
-  "#fdb462",
+  "#FBD462",
   "#BC80BD",
   "#FFFFB3",
   "#BEBADA",
@@ -78,21 +88,18 @@ var colours = [
   "#99ccff",
   "#66CC66",
   "#FF9933",
-  "#FF6666",
-  "#FDB462",
-  "#F27EA5",
-  "#2D88B5",
-  "#6666CC",
-  "#CCCC66",
-  "#FB8072",
 ];
 var index = 0;
 function getColor(region) {
+  if (region === "Marine NRM") {
+    return '#ccffff'
+  }
   if (index === colours.length) {
     index = 0;
   }
+  colour = colours[index]
   index++;
-  return colours[index - 1];
+  return colour;
 }
 function zoomToFeature(e) {
   //map.fitBounds(e.target.getBounds());
