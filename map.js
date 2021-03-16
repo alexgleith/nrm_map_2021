@@ -42,8 +42,15 @@ $.getJSON("nrm_reg_new.json", function (json) {
 
       layer.bindTooltip(feature.properties.name);
 
-      layer.on({
-        click: zoomToFeature,
+      layer.on('mouseover', function () {
+        this.setStyle({
+          'fillColor': '#ffffff'
+        });
+      });
+      layer.on('mouseout', function (event) {
+        this.setStyle({
+          'fillColor': getColor(event.sourceTarget.feature.properties.name)
+        });
       });
     },
   }).addTo(map);
@@ -89,18 +96,26 @@ var colours = [
   "#66CC66",
   "#FF9933",
 ];
+var col_for_name = {};
 var index = 0;
 function getColor(region) {
+  console.log(region)
+  // Reset to a known colour if it exists
+  if (col_for_name[region] !== undefined) {
+    return col_for_name[region]
+  }
+
+  // Or find a colour
   if (region === "Marine NRM") {
-    return '#ccffff'
+    colour =  '#ccffff'
+  } else {
+    if (index === colours.length) {
+      index = 0;
+    }
+    colour = colours[index]
+    index++;
   }
-  if (index === colours.length) {
-    index = 0;
-  }
-  colour = colours[index]
-  index++;
-  return colour;
-}
-function zoomToFeature(e) {
-  //map.fitBounds(e.target.getBounds());
+
+  col_for_name[region] = colour
+  return col_for_name[region];
 }
