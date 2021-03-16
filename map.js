@@ -13,14 +13,7 @@ L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
     'Basemap &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors. Map by <a href=https://www.linkedin.com/in/alex-leith/>Auspatious</a>.',
 }).addTo(map);
 
-// //labels don't work on touch, so need a test. From http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
-// function is_touch_device() {
-//   return 'ontouchstart' in window // works on most browsers
-//       || 'onmsgesturechange' in window; // works on ie10
-// };
-
 var NRMRegions = null;
-var mainURL = "http://www.conference.nrmregionsaustralia.com.au/nrm-map/";
 
 $.getJSON("nrm_reg_new.json", function (json) {
   console.log(json)
@@ -32,7 +25,7 @@ $.getJSON("nrm_reg_new.json", function (json) {
         stroke: true,
         color: "#bbb",
         weight: 2,
-        fillColor: getColor(feature.properties.NRM_REGION),
+        fillColor: getColor(feature.properties.name),
         fillOpacity: 0.6,
       };
     },
@@ -40,15 +33,14 @@ $.getJSON("nrm_reg_new.json", function (json) {
       popupOptions = { maxWidth: 200 };
       layer.bindPopup(
         "<b>" +
-          feature.properties.NLP_MU +
+          feature.properties.name +
           "</b><br><a href=" +
-          mainURL +
-          feature.properties.NLP_MU.split(" ").join("-") +
+          feature.properties.url +
           ">More Information</a>",
         popupOptions
       );
 
-      layer.bindTooltip(feature.properties.NLP_MU);
+      layer.bindTooltip(feature.properties.name);
 
       // //check for touch device
       // if (!is_touch_device()) {
