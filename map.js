@@ -16,7 +16,6 @@ L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
 var NRMRegions = null;
 
 $.getJSON("nrm_reg_new.json", function (json) {
-  console.log(json)
   var nrmGeoJson = topojson.feature(json, json.objects.NLPMU_2020)
     .features;
   NRMRegions = L.geoJson(nrmGeoJson, {
@@ -31,14 +30,9 @@ $.getJSON("nrm_reg_new.json", function (json) {
     },
     onEachFeature: function (feature, layer) {
       popupOptions = { maxWidth: 200 };
-      layer.bindPopup(
-        "<b>" +
-          feature.properties.name +
-          "</b><br><a href=" +
-          feature.properties.url +
-          " target='_blank'>More Information</a>",
-        popupOptions
-      );
+      layer.on('click', function () {
+        window.open(feature.properties.url, "_blank")
+      })
 
       layer.bindTooltip(feature.properties.name);
 
@@ -99,7 +93,6 @@ var colours = [
 var col_for_name = {};
 var index = 0;
 function getColor(region) {
-  console.log(region)
   // Reset to a known colour if it exists
   if (col_for_name[region] !== undefined) {
     return col_for_name[region]
