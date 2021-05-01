@@ -34,7 +34,7 @@ $.getJSON("nrm_reg_new.json", function (json) {
         window.open(feature.properties.url, "_blank")
       })
 
-      layer.bindTooltip(feature.properties.name);
+      layer.bindTooltip(feature.properties.name, {sticky: true});
 
       layer.on('mouseover', function () {
         this.setStyle({
